@@ -1,30 +1,32 @@
 import sys
+import os
 import random
 import pygame
 import pygame.image
 import struct
 from pygame.locals import *
 
+dir = os.path.dirname(os.path.abspath(__file__))
 pygame.init()
 
 '''IMAGE'''
 #INISIALISASI ASSETS GAMBAR
-player_ship = 'assets\\img\\playership.png'
-enemy_ship = 'assets\\img\\enemyship.png'
-ufo_ship = 'assets\\img\\ufo.png'
-player_bullet = 'assets\\img\\playerbullet.png'
-enemy_bullet = 'assets\\img\\enemybullet.png'
+player_ship = dir + '\\assets\\img\\playership.png'
+enemy_ship = dir + '\\assets\\img\\enemyship.png'
+ufo_ship = dir + '\\assets\\img\\ufo.png'
+player_bullet = dir + '\\assets\\img\\playerbullet.png'
+enemy_bullet = dir + '\\assets\\img\\enemybullet.png'
 ufo_bullet = enemy_bullet
-heart = 'assets\\img\\heart.png'
+heart = dir + '\\assets\\img\\heart.png'
 
 '''SOUND'''
 #INISIALISASI ASSETS SUARA
-laser_sound = pygame.mixer.Sound("assets\\backsound\\pewpew.mp3")
-explosion_sfx = pygame.mixer.Sound("assets\\backsound\\loud-explosion.wav")
-game_over_sfx = pygame.mixer.Sound("assets\\backsound\\dark_souls_game_over.wav")
-menu_sound = pygame.mixer.Sound("assets\\backsound\\cyberfunk.mp3")
+laser_sound = pygame.mixer.Sound(dir + '\\assets\\backsound\\pewpew.mp3')
+explosion_sfx = pygame.mixer.Sound(dir + "\\assets\\backsound\\loud-explosion.wav")
+game_over_sfx = pygame.mixer.Sound(dir + "\\assets\\backsound\\dark_souls_game_over.wav")
+menu_sound = pygame.mixer.Sound(dir + "\\assets\\backsound\\cyberfunk.mp3")
 
-ingame_sound = pygame.mixer.music.load("assets\\backsound\\epicsong.mp3")
+ingame_sound = pygame.mixer.music.load(dir + "\\assets\\backsound\\epicsong.mp3")
 
 #INISIALISASI pygame.mixer
 pygame.mixer.init()
@@ -270,7 +272,7 @@ class Explosion(pygame.sprite.Sprite):
         #export gambar satu-per-satu
         self.img_list = []
         for i in range(1,6):
-            img = pygame.image.load(f"assets\\img\\exp{i}.png").convert()
+            img = pygame.image.load(dir + f"\\assets\\img\\exp{i}.png").convert()
             img.set_colorkey("black")
             img = pygame.transform.scale(img, (120, 120))
             self.img_list.append(img)
@@ -325,12 +327,12 @@ class Game:
 
     def start_text(self):
         #mengidentifikasi teks yang ingin ditampilkan pada menu awal
-        font = pygame.font.Font("assets\\font\\RollboxSemiBoldItalic-51Vez.ttf", 40)
-        text_1 = font.render("SPACE RAWRRR", True, "green")
+        font = pygame.font.Font(dir + "\\assets\\font\\RollboxSemiBoldItalic-51Vez.ttf", 40)
+        text_1 = font.render("SPACE RAWRR", True, "green")
         text_rect = text_1.get_rect(center=(s_width/2, s_height/2))
         screen.blit(text_1, text_rect)
         
-        font = pygame.font.Font("assets\\font\\RollboxSemiBoldItalic-51Vez.ttf", 25)
+        font = pygame.font.Font(dir + "\\assets\\font\\RollboxSemiBoldItalic-51Vez.ttf", 25)
         text_2 = font.render("PRESS ENTER TO PLAY", True, "white")
         text_rect = text_2.get_rect(center=(s_width/2, s_height/2 + 25))
         screen.blit(text_2, (text_rect[0], text_rect[1] + 10))
@@ -367,7 +369,7 @@ class Game:
 
     def pause_text(self):
         #mengidentifikasi teks yang ingin ditampilkan pada menu pause
-        font = pygame.font.Font("assets\\font\\RollboxSemiBoldItalic-51Vez.ttf", 50)
+        font = pygame.font.Font(dir + "\\assets\\font\\RollboxSemiBoldItalic-51Vez.ttf", 50)
         text_1 = font.render("PAUSE", True, "green")
         text_rect = text_1.get_rect(center=(s_width/2, s_height/2))
         screen.blit(text_1, text_rect)
@@ -392,12 +394,12 @@ class Game:
 
     def game_over_text(self):
         #menginilisialisasikan teks yang ingin ditampilkan pada menu game over
-        font = pygame.font.Font("assets\\font\\RollboxSemiBoldItalic-51Vez.ttf", 50)
+        font = pygame.font.Font(dir + "\\assets\\font\\RollboxSemiBoldItalic-51Vez.ttf", 50)
         text_1 = font.render("DUARRR, GAME OVERR", True, "red")
         text_rect = text_1.get_rect(center=(s_width/2, s_height/2))
         screen.blit(text_1, text_rect)
 
-        font = pygame.font.Font("assets\\font\\RollboxSemiBoldItalic-51Vez.ttf", 25)
+        font = pygame.font.Font(dir + "\\assets\\font\\RollboxSemiBoldItalic-51Vez.ttf", 25)
         text_2 = font.render("PRESS ESCAPE TO RETURN TO MENU", True, "white")
         text_rect = text_2.get_rect(center=(s_width/2, s_height/2 + 25))
         screen.blit(text_2, (text_rect[0], text_rect[1] + 10))
@@ -506,7 +508,7 @@ class Game:
                 if self.player.hit_count > self.player.hit_max:
                     self.player.hit_count = 0
                     if self.score > self.high_score:
-                        self.write_bin_file("assets\\hs.bin", self.score)
+                        self.write_bin_file(dir + "\\assets\\hs.bin", self.score)
                     self.game_over_screen()
     
     def ufobullet_hits_player(self):
@@ -519,7 +521,7 @@ class Game:
                 if self.player.hit_count > self.player.hit_max:
                     self.player.hit_count = 0
                     if self.score > self.high_score:
-                        self.write_bin_file("assets\\hs.bin", self.score)
+                        self.write_bin_file(dir + "\\assets\\hs.bin", self.score)
                     self.game_over_screen()
 
     def player_enemy_crash(self):
@@ -541,7 +543,7 @@ class Game:
                 if self.player.hit_count > self.player.hit_max:
                     self.player.hit_count = 0
                     if self.score > self.high_score:
-                        self.write_bin_file("assets\\hs.bin", self.score)
+                        self.write_bin_file(dir + "\\assets\\hs.bin", self.score)
                     self.game_over_screen()
     
     def player_ufo_crash(self):
@@ -565,7 +567,7 @@ class Game:
                 if self.player.hit_count > self.player.hit_max:
                     self.player.hit_count = 0
                     if self.score > self.high_score:
-                        self.write_bin_file("assets\\hs.bin", self.score)
+                        self.write_bin_file(dir + "\\assets\\hs.bin", self.score)
                     self.game_over_screen()
 
     def create_lives_list(self):
@@ -581,14 +583,14 @@ class Game:
     def create_score(self):
         #mencetak skor pada dekat pesawat
         score = self.score
-        font = pygame.font.Font("assets\\font\\RollboxSemiBoldItalic-51Vez.ttf", 18)
+        font = pygame.font.Font(dir + "\\assets\\font\\RollboxSemiBoldItalic-51Vez.ttf", 18)
         text = font.render(str(score), True, 'green')
         text.set_alpha(220)
         text_rect = pygame.mouse.get_pos()
         screen.blit(text, (text_rect[0] + 75, text_rect[1] + 10))
 
     def create_high_score(self):
-        font = pygame.font.Font("assets\\font\\RollboxSemiBoldItalic-51Vez.ttf", 23)
+        font = pygame.font.Font(dir + "\\assets\\font\\RollboxSemiBoldItalic-51Vez.ttf", 23)
         text = font.render(f"HIGH SCORE : {self.high_score}", True, 'green')
         text.set_alpha(220)
         screen.blit(text, (10,10))
@@ -609,7 +611,7 @@ class Game:
             self.create_player()
             self.create_enemy()
             self.create_ufo()
-            self.high_score = self.read_bin_file("assets\\hs.bin")
+            self.high_score = self.read_bin_file(dir + "\\assets\\hs.bin")
         while True:
             #mengupdate hasil yang terjadi pada tiap objek
             screen.fill("black")
